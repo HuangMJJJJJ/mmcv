@@ -348,6 +348,8 @@ class MultiScaleDeformableAttention(BaseModule):
                                                    self.num_heads,
                                                    self.num_levels,
                                                    self.num_points)
+        if kwargs.get("mask_head_hook", None):
+            attention_weights = kwargs["mask_head_hook"](attention_weights)
         if reference_points.shape[-1] == 2:
             offset_normalizer = torch.stack(
                 [spatial_shapes[..., 1], spatial_shapes[..., 0]], -1)
